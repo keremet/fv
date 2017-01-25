@@ -1,6 +1,6 @@
 <?php
 session_start();
-$agr_id = isset($_GET['agr_id'])?$_GET['agr_id']:null;
+$id = isset($_GET['id'])?$_GET['id']:null;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
@@ -8,7 +8,7 @@ $agr_id = isset($_GET['agr_id'])?$_GET['agr_id']:null;
 	<title>Участник</title>
 <script src="dates.js"></script>	
 <script>
-function checkDelAgr(){
+function checkDelUch(){
 	if(confirm('Действительно удалить участника?')){
 		document.getElementById('oper_type').value='delete';
 		return true;
@@ -16,8 +16,25 @@ function checkDelAgr(){
 	return false;
 }
 
-function saveAgr()
+function saveUch()
 {
+	var arr_err = [];
+	
+	document.getElementById("ofv_uch_birthday_cor").value = form_and_check_std_dat(document.getElementById("ofv_uch_birthday").value, arr_err);
+	if(arr_err.length>0){
+		alert("Ошибка в дате рождения: "+arr_err[0])
+		document.getElementById("ofv_uch_birthday").focus();
+		document.getElementById("ofv_uch_birthday").select();
+		return false;
+	}
+	
+	document.getElementById("ofv_uch_pasp_date_cor").value = form_and_check_std_dat(document.getElementById("ofv_uch_pasp_date").value, arr_err);
+	if(arr_err.length>0){
+		alert("Ошибка в дате выдачи паспорта: "+arr_err[0])
+		document.getElementById("ofv_uch_pasp_date").focus();
+		document.getElementById("ofv_uch_pasp_date").select();
+		return false;
+	}
 	return true;
 }
 
@@ -36,9 +53,21 @@ function saveAgr()
 		</td>		
 	</tr>
 </table>
+<?php	
+include 'connect.php';
+if($id != null){
+	$stmt = $db->prepare(
+		"SELECT * 
+		 FROM ofv_uch
+		 WHERE id = ?");
+	$stmt->execute(array($id));
+	$uch = $stmt->fetch();
+}
+?>
+
 <form id="main_form" action="uch_save.php" method="post">
 <table border="0" cellpadding="0" cellspacing="2">
-<tr><td>ФИО/Название<td><input id="ofv_uch_name"  name="ofv_uch_name" size="30" type="text">
+<tr><td>ФИО/Название<td><input id="ofv_uch_name"  name="ofv_uch_name" size="30" type="text" value="<?=(($id!=null)?$uch['name']:'')?>">
 <tr><td>Адрес<td><input id="ofv_uch_address"  name="ofv_uch_address" size="30" type="text">
 <tr><td>Дата рождения<td><input id="ofv_uch_birthday"  name="ofv_uch_birthday" size="8" type="text" maxlength="8" onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 <tr><td>Серия паспорта<td><input id="ofv_uch_pasp_ser"  name="ofv_uch_pasp_ser" size="4" type="text" maxlength="4" onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
@@ -46,22 +75,22 @@ function saveAgr()
 <tr><td>Кем выдан паспорт<td><input id="ofv_uch_pasp_who"  name="ofv_uch_pasp_who" size="30" type="text">
 <tr><td>Дата выдачи паспорта<td><input id="ofv_uch_pasp_date"  name="ofv_uch_pasp_date" size="8"  maxlength="8" type="text" onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 <tr><td>Тип участника<td><select name="ofv_uch_type" id="ofv_uch_type">'
-<?php	
-include 'connect.php';
-
-foreach($db->query(
-			"SELECT id, name
-   			 FROM ofv_uch_type
-			 ORDER BY id"
-			 ) as $row){
-				echo '<option value="'.$row['id'].'">'.$row['name'].'</option>;';
-			 }
-			 echo '
-			 </select>
+<?php
+	foreach($db->query(
+		"SELECT id, name
+		 FROM ofv_uch_type
+		 ORDER BY id"
+	) as $row){
+		echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+	}
+?>
+</select>
 </table>
 
-<br><input value="'.(($agr_id==null)?"Создать участника":"Сохранить").'" type="submit"  onclick="return saveAgr();">
-<input type="hidden" id="agr_id" name="agr_id" value="'.$agr_id.'">';?>
+<br><input value="<?=(($id==null)?"Создать участника":"Сохранить")?>" type="submit"  onclick="return saveUch();">
+<input type="hidden" id="id" name="id" value="<?=$id?>">
+<input type="hidden" id="ofv_uch_birthday_cor" name="ofv_uch_birthday_cor">
+<input type="hidden" id="ofv_uch_pasp_date_cor" name="ofv_uch_pasp_date_cor">
 </form>
 </body>
 </html> 
