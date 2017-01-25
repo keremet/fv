@@ -60,13 +60,8 @@ foreach($db->query(
 			 </select>
 </table>
 
-<br><input value="'.(($agr_id==null)?"Создать участника":"Сохранить").'" type="submit"  onclick="return saveAgr();">';
-?>
-	<input type="hidden" id="oper_type" name="oper_type" value="update">
-	<input type="hidden" id="deb_cust_id" name="deb_cust_id" value="0">
-	<input type="hidden" id="ofv_uch_name" name="ofv_uch_name">
-	<input type="hidden" id="arr_debs" name="arr_debs">
-<?php echo '<input type="hidden" id="agr_id" name="agr_id" value="'.$agr_id.'">';?>
+<br><input value="'.(($agr_id==null)?"Создать участника":"Сохранить").'" type="submit"  onclick="return saveAgr();">
+<input type="hidden" id="agr_id" name="agr_id" value="'.$agr_id.'">';?>
 </form>
 </body>
 </html> 
