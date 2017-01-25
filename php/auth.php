@@ -1,7 +1,7 @@
 <?php
 session_start();
 $form_begin='
-	<html><head>
+    <html><head>
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 		<title>Вход</title>
 	</head><body>	
@@ -27,7 +27,7 @@ if(!isset($_SESSION['login']) || ($_SESSION['login']===null)){
 		}
 	}
 	exit;
-}else{	
+}else{
 	include "localdb.php";
 	try{
 		$db = new localdb();

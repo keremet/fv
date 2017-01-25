@@ -1,27 +1,17 @@
-<?php
-include "auth.php";
-?>
-
 <html><head>
 	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 	<title>Участники</title>
-<?php
-include "user_styles.php";
-?>
 </head><body dir="LTR" lang="ru-RU" link="#000080" vlink="#800000">
 <table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
-		<td>
-			<pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace"><font size="2">Выход</font></font></a></pre>
+		<td>			                    
+                        <pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace"><font size="2">Выход</font></font></a></pre>
 		</td>
 		<td>
-			<pre style="text-align: left;"><a href="agr.php"><font face="Liberation Mono, monospace"><font size="2">Добавить договор</font></font></a></pre>
+			<pre style="text-align: left;"><a href="uch.php"><font face="Liberation Mono, monospace"><font size="2">Добавить участника</font></font></a></pre>
 		</td>
 		<td>
 			<pre style="text-align: left;"><a href="test.php"><font face="Liberation Mono, monospace"><font size="2">Для тестирования</font></font></a></pre>
-		</td>
-		<td>
-			<pre style="text-align: left;"><font face="Liberation Mono, monospace"><font size="2"><?php echo $db->getOperDay(); ?></font></font></pre>
 		</td>
 	</tr>
 </table>
@@ -39,6 +29,6 @@ include "user_styles.php";
 	}
 
 	oftTable::end();
-?>
+?> 
 </p>
 </body></html>
