@@ -77,6 +77,8 @@ if($id != null){
 </table>
 
 <br><input value="<?=(($id==null)?"Создать участника":"Сохранить")?>" type="submit"  onclick="return saveUch();">
+<input value="Удалить участника" type="submit" onclick="return checkDelUch();">
+<input type="hidden" id="oper_type" name="oper_type" value="update">
 <input type="hidden" id="id" name="id" value="<?=$id?>">
 <input type="hidden" id="ofv_uch_birthday_cor" name="ofv_uch_birthday_cor">
 <input type="hidden" id="ofv_uch_pasp_date_cor" name="ofv_uch_pasp_date_cor">
