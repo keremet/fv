@@ -47,7 +47,16 @@ function saveUch()
 <tr valign="TOP">
 		<td>
 			<pre style="text-align: left;"><a href="index.php"><font face="Liberation Mono, monospace"><font size="2">Участники</font></font></a></pre>
-		</td>		
+		</td>	
+<?php
+if($id != null){
+?>
+		<td>
+			<pre style="text-align: left;"><a href="acc_list.php?uch_id=<?=$id?>"><font face="Liberation Mono, monospace"><font size="2">Счета</font></font></a></pre>
+		</td>	
+<?php
+}
+?>		
 		<td>
 			<pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace"><font size="2">Выход</font></font></a></pre>
 		</td>		
