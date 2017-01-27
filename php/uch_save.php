@@ -27,12 +27,14 @@
 					,$_POST['ofv_uch_pasp_ser'],$_POST['ofv_uch_pasp_num'],$_POST['ofv_uch_pasp_date_cor'],$_POST['ofv_uch_pasp_who']
 					,$_POST['id']));
 	} else {
-		execStmt("INSERT INTO ofv_uch (name, type_id, birthday
+		execStmt("INSERT INTO ofv_uch (name, birthday
 					, address, pasp_ser
-					, pasp_num, pasp_date, pasp_who) 
-				  VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-			array( $_POST['ofv_uch_name'],$_POST['ofv_uch_type'],$_POST['ofv_uch_birthday_cor']
+					, pasp_num, pasp_date
+					, pasp_who) 
+				  VALUES (?, ?, ?, ?, ?, ?, ?)",
+			array( $_POST['ofv_uch_name'],$_POST['ofv_uch_birthday_cor']
 				  ,$_POST['ofv_uch_address'],$_POST['ofv_uch_pasp_ser']
-				  ,$_POST['ofv_uch_pasp_num'],$_POST['ofv_uch_pasp_date_cor'],$_POST['ofv_uch_pasp_who']));
+				  ,$_POST['ofv_uch_pasp_num'],$_POST['ofv_uch_pasp_date_cor']
+				  ,$_POST['ofv_uch_pasp_who']));
 	}
 ?>

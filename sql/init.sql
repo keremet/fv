@@ -10,20 +10,7 @@ SET time_zone = "+00:00";
 --
 -- База данных: `true`
 --
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `uch_type`, в ней как бы возможные типы участников
---
-
-CREATE TABLE `ofv_uch_type` (
-`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`name` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
+-----------------------------------------------------------
 --
 -- Структура таблицы `uch`, в ней какбы список участников ОРВ
 --
@@ -31,14 +18,12 @@ CREATE TABLE `ofv_uch_type` (
 CREATE TABLE `ofv_uch` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` text COLLATE utf8_unicode_ci NOT NULL,
-`type_id` int(11) NOT NULL,
 `address` text COLLATE utf8_unicode_ci NOT NULL,
 `birthday` date NOT NULL,
 `pasp_ser` int(4),
 `pasp_num` int(6),
 `pasp_date` date,
-`pasp_who` text COLLATE utf8_unicode_ci,
-CONSTRAINT `uch_type_id` FOREIGN KEY (`type_id`) REFERENCES `ofv_uch_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+`pasp_who` text COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -98,12 +83,4 @@ CONSTRAINT `provodki_deb_acc_id` FOREIGN KEY (`deb_acc_id`) REFERENCES `ofv_acc`
 CONSTRAINT `provodki_transact_id` FOREIGN KEY (`transact_id`) REFERENCES `ofv_transactsii` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
-
-
-
 -- --------------------------------------------------------
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
