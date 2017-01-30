@@ -27,7 +27,8 @@
 						, pasp_ser = ?, pasp_num = ?, pasp_date = ?, pasp_who = ? 
 					  WHERE id = ?",
 				array($_POST['ofv_uch_name'],$_POST['ofv_uch_address'],$_POST['ofv_uch_birthday_cor']
-						,$_POST['ofv_uch_pasp_ser'],$_POST['ofv_uch_pasp_num'],$_POST['ofv_uch_pasp_date_cor'],$_POST['ofv_uch_pasp_who']
+						,$_POST['ofv_uch_pasp_ser'],$_POST['ofv_uch_pasp_num']
+                                                ,$_POST['ofv_uch_pasp_date_cor'],$_POST['ofv_uch_pasp_who']
 						,$_POST['id']));
 		}
 	} else {
