@@ -1,7 +1,20 @@
 <?php
-session_start();
-$uch_id = isset($_GET['uch_id'])?$_GET['uch_id']:null;
-$acc_id = isset($_GET['acc_id'])?$_GET['acc_id']:null;
+//session_start();
+include 'connect.php';
+if (isset($_GET['acc_id'])) {
+	$acc_id = $_GET['acc_id'];
+	$stmt = $db->prepare(
+		"SELECT type_id, uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
+                ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date
+		 FROM ofv_acc
+		 WHERE id = ?");
+	$stmt->execute(array($acc_id));
+	$acc = $stmt->fetch();
+	$uch_id = $acc['uch_id'];
+} else {
+	$acc_id = null;
+	$uch_id = isset($_GET['uch_id'])?$_GET['uch_id']:null;
+}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,14 +44,19 @@ function saveAcc(){
 		document.getElementById("ofv_acc_creat_date").select();
 		return false;
     }
-	/*	document.getElementById("ofv_acc_clos_date_cor").value = form_and_check_std_dat(
-        document.getElementById("ofv_acc_clos_date").value, arr_err);
-            if(arr_err.length>0){
-				alert("Ошибка в дате закрытия: "+arr_err[0]);
-		document.getElementById("ofv_acc_clos_date").focus();
-		document.getElementById("ofv_acc_clos_date").select();
-		return false;
-            }*/
+<?php if ($acc_id!=null) { ?>  
+	var v_ofv_acc_clos_date = document.getElementById("ofv_acc_clos_date").value;
+	if ( v_ofv_acc_clos_date != '' ) {
+		document.getElementById("ofv_acc_clos_date_cor").value = 
+			form_and_check_std_dat(v_ofv_acc_clos_date, arr_err);
+		if(arr_err.length>0){
+			alert("Ошибка в дате закрытия: "+arr_err[0]);
+			document.getElementById("ofv_acc_clos_date").focus();
+			document.getElementById("ofv_acc_clos_date").select();
+			return false;
+		}
+	}
+<?php } ?>  
     return true;
 }
 
@@ -50,25 +68,18 @@ function saveAcc(){
                         <font size="2">Участники</font></font></a>
                     </pre>
 		</td>	
+                <td>
+                    <pre style="text-align: left;"><a href="acc_list.php?uch_id=<?=$uch_id?>"><font face="Liberation Mono, monospace">
+                        <font size="2">Счета</font></font></a>
+                    </pre>
+		</td>
 		<td>
                     <pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace">
                         <font size="2">Выход</font></font></a>
                     </pre>
 		</td>		
 	</tr>
-</table> 
-<?php	
-include 'connect.php';
-if($acc_id != null){
-	$stmt = $db->prepare(
-		"SELECT type_id, uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
-                ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date
-		 FROM ofv_acc
-		 WHERE id = ?");
-	$stmt->execute(array($acc_id));
-	$acc = $stmt->fetch();
-}
-?>
+</table>
 
 <form id="main_form" action="acc_save.php" method="post">
 <table border="0" cellpadding="0" cellspacing="2">  
@@ -103,13 +114,14 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 
 <?php if ($acc_id!=null) { ?>
 <input value="Удалить счёт" type="submit" onclick="return checkDelAcc();">
+<input type="hidden" id="ofv_acc_clos_date_cor" name="ofv_acc_clos_date_cor">
 <?php } ?>
 
 <input type="hidden" id="oper_type" name="oper_type" value="update">
-<input type="hidden" id="uch_id" name="uch_id" value="<?=($uch_id==null)?$acc['uch_id']:$uch_id?>">
+<input type="hidden" id="uch_id" name="uch_id" value="<?=$uch_id?>">
 <input type="hidden" id="acc_id" name="acc_id" value="<?=$acc_id?>">
 <input type="hidden" id="ofv_acc_creat_date_cor" name="ofv_acc_creat_date_cor">
-<input type="hidden" id="ofv_acc_clos_date_cor" name="ofv_acc_clos_date_cor">
+
 </form>
 </body>
 </html> 
