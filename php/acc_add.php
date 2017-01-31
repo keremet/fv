@@ -66,6 +66,9 @@ function saveAcc(){
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="index.php">Участники</a>
 	<td align="left"><a href="acc_list.php?uch_id=<?=$uch_id?>">Счета</a>
+<?php if ($acc_id!=null) { ?>
+	<td align="left"><a href="ent_list.php?acc_id=<?=$acc_id?>">Движение по счету</a>
+<?php } ?>
 </table>
 <br/>
 <form id="main_form" action="acc_save.php" method="post">
