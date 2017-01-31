@@ -41,34 +41,15 @@ function saveUch()
 </script>	
 </head>
 <body>
-
-
 <table style="page-break-before: always;" width="262" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
-		<td>
-			<pre style="text-align: left;"><a href="index.php">
-                            <font face="Liberation Mono, monospace"><font size="2">Участники</font></font></a></pre>
-		</td>	
-<?php
-if($id != null){
-?>
-		<td>
-			<pre style="text-align: left;"><a href="acc_list.php?uch_id=<?=$id?>">
-                            <font face="Liberation Mono, monospace"><font size="2">Счета</font></font></a></pre>
-		</td>	
-<!--                <td>
-			<pre style="text-align: left;"><a href="transact_list.php?uch_id=<=$id?>">
-                            <font face="Liberation Mono, monospace"><font size="2">Транзакции</font></font></a></pre>
-		</td>-->
-<?php
-}
-?>		
-		<td>
-			<pre style="text-align: left;"><a href="exit.php">
-                            <font face="Liberation Mono, monospace"><font size="2">Выход</font></font></a></pre>
-		</td>		
-	</tr>
+	<td align="left"><a href="exit.php">Выход</a>
+	<td align="left"><a href="index.php">Участники</a>
+<?php if($id != null){ ?>
+	<td align="left"><a href="acc_list.php?uch_id=<?=$id?>">Счета</a>
+<?php } ?>
 </table>
+<br/>
 <?php	
 include 'connect.php';
 if($id != null){
@@ -106,7 +87,9 @@ if($id != null){
 </table>
 
 <br><input value="<?=(($id==null)?"Создать участника":"Сохранить")?>" type="submit"  onclick="return saveUch();">
+<?php if($id != null){ ?>
 <input value="Удалить участника" type="submit" onclick="return checkDelUch();">
+<?php } ?>
 <input type="hidden" id="oper_type" name="oper_type" value="update">
 <input type="hidden" id="id" name="id" value="<?=$id?>">
 <input type="hidden" id="ofv_uch_birthday_cor" name="ofv_uch_birthday_cor">

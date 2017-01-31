@@ -4,16 +4,12 @@
 </head>
 <table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
-		<td>			                    
-            <pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace">
-				<font size="2">Выход</font></font></a></pre>
-		</td>
-		<td>
-			<pre style="text-align: left;"><a href="acc_add.php?uch_id=<?=$_GET['uch_id']?>"><font face="Liberation Mono, monospace">
-				<font size="2">Добавить счёт</font></font></a></pre>
-		</td>
-	</tr>
+	<td align="left"><a href="exit.php">Выход</a>
+	<td align="left"><a href="acc_add.php?uch_id=<?=$_GET['uch_id']?>">Добавить счёт</a>
+	<td align="left"><a href="uch.php?id=<?=$_GET['uch_id']?>">Участник</a>
+	<td align="left"><a href="index.php">Участники</a>
 </table>
+<br/>
 <?php
 	include "oft_table.php";
 	include "connect.php";

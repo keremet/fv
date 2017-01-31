@@ -63,24 +63,11 @@ function saveAcc(){
 </script>	
 <table style="page-break-before: always;" width="262" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
-		<td>
-                    <pre style="text-align: left;"><a href="index.php"><font face="Liberation Mono, monospace">
-                        <font size="2">Участники</font></font></a>
-                    </pre>
-		</td>	
-                <td>
-                    <pre style="text-align: left;"><a href="acc_list.php?uch_id=<?=$uch_id?>"><font face="Liberation Mono, monospace">
-                        <font size="2">Счета</font></font></a>
-                    </pre>
-		</td>
-		<td>
-                    <pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace">
-                        <font size="2">Выход</font></font></a>
-                    </pre>
-		</td>		
-	</tr>
+	<td align="left"><a href="exit.php">Выход</a>
+	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="acc_list.php?uch_id=<?=$uch_id?>">Счета</a>
 </table>
-
+<br/>
 <form id="main_form" action="acc_save.php" method="post">
 <table border="0" cellpadding="0" cellspacing="2">  
     

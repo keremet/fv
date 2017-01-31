@@ -4,17 +4,11 @@
 </head>
 <table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
-		<td>			                    
-                        <pre style="text-align: left;"><a href="exit.php"><font face="Liberation Mono, monospace"><font size="2">Выход</font></font></a></pre>
-		</td>
-		<td>
-			<pre style="text-align: left;"><a href="uch.php"><font face="Liberation Mono, monospace"><font size="2">Добавить участника</font></font></a></pre>
-		</td>
-		<td>
-			<pre style="text-align: left;"><a href="test.php"><font face="Liberation Mono, monospace"><font size="2">Для тестирования</font></font></a></pre>
-		</td>
-	</tr>
+	<td align="left"><a href="exit.php">Выход</a>
+	<td align="left"><a href="uch.php">Добавить участника</a>
+	<td align="left"><a href="test.php">Для тестирования</a>
 </table>
+<br/>
 <?php
 	include "oft_table.php";
 	include "connect.php";
