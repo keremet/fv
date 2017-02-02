@@ -50,6 +50,7 @@ CREATE TABLE `ofv_acc` (
 `type_id` int(11) NOT NULL,
 `creat_date` date NOT NULL,
 `clos_date` date,
+`remark` text COLLATE utf8_unicode_ci,
 CONSTRAINT `acc_uch_id` FOREIGN KEY (`uch_id`) REFERENCES `ofv_uch` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT `acc_type_id` FOREIGN KEY (`type_id`) REFERENCES `ofv_acc_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

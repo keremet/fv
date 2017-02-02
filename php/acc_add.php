@@ -6,6 +6,7 @@ if (isset($_GET['acc_id'])) {
 	$stmt = $db->prepare(
 		"SELECT type_id, uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
                 ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date
+                ,remark
 		 FROM ofv_acc
 		 WHERE id = ?");
 	$stmt->execute(array($acc_id));
@@ -72,8 +73,11 @@ function saveAcc(){
 </table>
 <br/>
 <form id="main_form" action="acc_save.php" method="post">
-<table border="0" cellpadding="0" cellspacing="2">  
+<table border="0" cellpadding="0" cellspacing="2">
     
+<tr><td>Примечание<td><input id="ofv_acc_remark"  name="ofv_acc_remark" size="30" type="text" 
+value="<?=(($acc_id!=null)?$acc['remark']:'')?>">    
+        
 <tr><td>Дата открытия<td><input id="ofv_acc_creat_date"  name="ofv_acc_creat_date" size="8" type="text" 
 value="<?=(($acc_id!=null)?$acc['creat_date']:'')?>" maxlength="8" 
 onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
@@ -83,6 +87,7 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 <tr><td>Дата закрытия<td><input id="ofv_acc_clos_date"  name="ofv_acc_clos_date" size="8" type="text" 
 value="<?=(($acc_id!=null)?$acc['clos_date']:'')?>" maxlength="8" 
 onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
+        
 
 <?php }else{?>	        
 	
