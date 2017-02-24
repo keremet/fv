@@ -9,3 +9,7 @@ try {
         echo $e;
 	die();
 }
+
+function doNull($v){
+	return ($v!=='')?$v:null;
+}

@@ -18,8 +18,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `ofv_uch` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` text COLLATE utf8_unicode_ci NOT NULL,
-`address` text COLLATE utf8_unicode_ci NOT NULL,
-`birthday` date NOT NULL,
+`address` text COLLATE utf8_unicode_ci,
+`birthday` date,
 `pasp_ser` int(4),
 `pasp_num` int(6),
 `pasp_date` date,

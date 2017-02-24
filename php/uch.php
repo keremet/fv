@@ -20,20 +20,26 @@ function saveUch()
 {
 	var arr_err = [];
 	
-	document.getElementById("ofv_uch_birthday_cor").value = form_and_check_std_dat(document.getElementById("ofv_uch_birthday").value, arr_err);
-	if(arr_err.length>0){
-		alert("Ошибка в дате рождения: "+arr_err[0])
-		document.getElementById("ofv_uch_birthday").focus();
-		document.getElementById("ofv_uch_birthday").select();
-		return false;
+	var ofv_uch_birthday = document.getElementById("ofv_uch_birthday").value;
+	if (ofv_uch_birthday != '' ) {
+		document.getElementById("ofv_uch_birthday_cor").value = form_and_check_std_dat(ofv_uch_birthday, arr_err);
+		if(arr_err.length>0){
+			alert("Ошибка в дате рождения: "+arr_err[0])
+			document.getElementById("ofv_uch_birthday").focus();
+			document.getElementById("ofv_uch_birthday").select();
+			return false;
+		}
 	}
 	
-	document.getElementById("ofv_uch_pasp_date_cor").value = form_and_check_std_dat(document.getElementById("ofv_uch_pasp_date").value, arr_err);
-	if(arr_err.length>0){
-		alert("Ошибка в дате выдачи паспорта: "+arr_err[0])
-		document.getElementById("ofv_uch_pasp_date").focus();
-		document.getElementById("ofv_uch_pasp_date").select();
-		return false;
+	var ofv_uch_pasp_date = document.getElementById("ofv_uch_pasp_date").value;
+	if (ofv_uch_pasp_date != '' ) {
+		document.getElementById("ofv_uch_pasp_date_cor").value = form_and_check_std_dat(ofv_uch_pasp_date, arr_err);
+		if(arr_err.length>0){
+			alert("Ошибка в дате выдачи паспорта: "+arr_err[0])
+			document.getElementById("ofv_uch_pasp_date").focus();
+			document.getElementById("ofv_uch_pasp_date").select();
+			return false;
+		}
 	}
 	return true;
 }
