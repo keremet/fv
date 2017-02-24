@@ -28,7 +28,8 @@
 		oftTable::row(array('<a href=acc_add.php?acc_id='.$row['id'].'>'.$row['id'].'</a>'
 			, $row['name'], $row['creat_date'], $row['clos_date'], $row['remark']
 			, '<a href=ent_add.php?cr_acc='.$row['id'].'&acc_id='.$row['id'].'>Добавить приход</a>'.
-			  '<br><a href=ent_add.php?deb_acc='.$row['id'].'&acc_id='.$row['id'].'>Добавить расход</a>'));
+			  '<br><a href=ent_add.php?deb_acc='.$row['id'].'&acc_id='.$row['id'].'>Добавить расход</a>'.
+			  '<br><a href=ent_list.php?acc_id='.$row['id'].'>Движение</a>'));
 	}
 
 	oftTable::end();
