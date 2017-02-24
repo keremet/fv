@@ -62,7 +62,7 @@ function saveAcc(){
 }
 
 </script>	
-<table style="page-break-before: always;" width="262" border="0" cellpadding="0" cellspacing="0">
+<table style="page-break-before: always;" width="600" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="index.php">Участники</a>
