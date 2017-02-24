@@ -15,7 +15,7 @@
 	oftTable::init('Участники');
 	oftTable::header(array('ID','ФИО','АДРЕС'
 			,'ДАТА РОЖДЕНИЯ','ПАСПОРТ: СЕРИЯ','НОМЕР','ДАТА ВЫДАЧИ'
-			,'КЕМ ВЫДАН','ОПЕРАЦИИ'));
+			,'КЕМ ВЫДАН'));
 	foreach($db->query(
 			"SELECT id, name, address, DATE_FORMAT(birthday, '%d-%m-%Y') as birthday
 				, LPAD(pasp_ser, 4, '0') as pasp_ser, LPAD(pasp_num, 6, '0') as pasp_num
@@ -23,9 +23,9 @@
 			 FROM ofv_uch
 			 ORDER BY id"
 			) as $row){
-	oftTable::row(array($row['id'],$row['name'],$row['address']
+	oftTable::row(array($row['id'],'<a href=uch.php?id='.$row['id'].'>'.$row['name'].'</a>',$row['address']
 		,$row['birthday'],$row['pasp_ser'],$row['pasp_num'],$row['pasp_date']
-		,$row['pasp_who'],'<a href=uch.php?id='.$row['id'].'>Изменить</a>'));
+		,$row['pasp_who']));
 	}
 
 	oftTable::end();

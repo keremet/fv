@@ -1,8 +1,8 @@
 <head>
 	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-	<title>Нормальные двежения по счету</title>
+	<title>Движения по счету</title>
 </head>
-<table style="page-break-before: always;" width="1000" border="1" cellpadding="1" cellspacing="1">
+<table style="page-break-before: always;" width="1000" border="0" cellpadding="1" cellspacing="1">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="index.php">Участники</a>
@@ -14,9 +14,8 @@
 <?php
 	include "oft_table.php";
 	include "connect.php";
-	oftTable::init('Нормальные движения по счёту');
-	oftTable::header(array('ID','ДАТА','ПРИХОД','РАСХОД','ОСТАТОК','СЧЕТ','УЧАСТНИК','НАЗНАЧЕНИЕ ПЛАТЕЖА'
-                              ,'НАВЕСТИ НОРМАЛЬНОЕ ДВИЖЕНИЕ'));
+	oftTable::init('Движения по счету');
+	oftTable::header(array('ID','ДАТА','ПРИХОД','РАСХОД','ОСТАТОК','СЧЕТ','УЧАСТНИК','НАЗНАЧЕНИЕ ПЛАТЕЖА'));
 	$stmt = $db->prepare(
 		"SELECT A.*, DATE_FORMAT(exec_date, '%d-%m-%Y') as exec_date_u, ofv_uch.name
 		 FROM (
@@ -39,9 +38,8 @@
 			$s += $row['cr'];
 		else
 			$s -= $row['deb'];
-		oftTable::row(array($row['id'], $row['exec_date_u'], $row['cr'], $row['deb']
-		   ,$s ,$row['acc_id'], $row['name'], $row['purpose'], 
-                            '<a href=ent_add.php?id='.$row['id'].'&acc_id='.$_GET['acc_id'].'>Переделать движение</a>'));
+		oftTable::row(array('<a href=ent_add.php?id='.$row['id'].'&acc_id='.$_GET['acc_id'].'>'.$row['id'].'</a>', $row['exec_date_u'], $row['cr'], $row['deb']
+		   ,$s ,$row['acc_id'], $row['name'], $row['purpose']));
 	}
         
 	oftTable::end();

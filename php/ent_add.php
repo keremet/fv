@@ -49,7 +49,7 @@ function saveEnt(){
 }
 
 </script>	
-<table style="page-break-before: always;" width="1000" border="1" cellpadding="1" cellspacing="1">
+<table style="page-break-before: always;" width="1000" border="0" cellpadding="1" cellspacing="1">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="index.php">Участники</a>

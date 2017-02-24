@@ -14,7 +14,7 @@
 	include "oft_table.php";
 	include "connect.php";
 	oftTable::init('Счета');
-	oftTable::header(array('ID','ТИП','ДАТА ОТКРЫТИЯ','ДАТА ЗАКРЫТИЯ', 'ПРИМЕЧАНИЕ', 'ОПЕРАЦИИ'));
+	oftTable::header(array('ID','ТИП','ДАТА ОТКРЫТИЯ','ДАТА ЗАКРЫТИЯ', 'ПРИМЕЧАНИЕ'));
 	$stmt = $db->prepare(
 		"SELECT ofv_acc.id, ofv_acc_type.name
 			, DATE_FORMAT( ofv_acc.creat_date, '%d-%m-%Y' ) AS creat_date
@@ -25,8 +25,7 @@
 			AND ofv_acc.type_id = ofv_acc_type.id");
 	$stmt->execute(array($_GET['uch_id']));
 	while ($row = $stmt->fetch()) {
-		oftTable::row(array($row['id'],$row['name'],$row['creat_date'],$row['clos_date'], $row['remark'] 
-			,'<a href=acc_add.php?acc_id='.$row['id'].'>Изменить</a>'));
+		oftTable::row(array('<a href=acc_add.php?acc_id='.$row['id'].'>'.$row['id'].'</a>',$row['name'],$row['creat_date'],$row['clos_date'], $row['remark']));
 	}
 
 	oftTable::end();
