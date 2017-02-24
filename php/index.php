@@ -13,19 +13,19 @@
 	include "oft_table.php";
 	include "connect.php";
 	oftTable::init('Участники');
-	oftTable::header(array('ID','ФИО','АДРЕС'
+	oftTable::header(array('ФИО','АДРЕС'
 			,'ДАТА РОЖДЕНИЯ','ПАСПОРТ: СЕРИЯ','НОМЕР','ДАТА ВЫДАЧИ'
-			,'КЕМ ВЫДАН'));
+			,'КЕМ ВЫДАН', ''));
 	foreach($db->query(
 			"SELECT id, name, address, DATE_FORMAT(birthday, '%d-%m-%Y') as birthday
 				, LPAD(pasp_ser, 4, '0') as pasp_ser, LPAD(pasp_num, 6, '0') as pasp_num
 				, DATE_FORMAT(pasp_date, '%d-%m-%Y') as pasp_date, pasp_who 
 			 FROM ofv_uch
-			 ORDER BY id"
+			 ORDER BY name"
 			) as $row){
-	oftTable::row(array($row['id'],'<a href=uch.php?id='.$row['id'].'>'.$row['name'].'</a>',$row['address']
+	oftTable::row(array('<a href=uch.php?id='.$row['id'].'>'.$row['name'].'</a>',$row['address']
 		,$row['birthday'],$row['pasp_ser'],$row['pasp_num'],$row['pasp_date']
-		,$row['pasp_who']));
+		,$row['pasp_who'], '<a href=acc_list.php?uch_id='.$row['id'].'>Счета</a>'));
 	}
 
 	oftTable::end();

@@ -17,7 +17,7 @@
 	oftTable::init('Движения по счету');
 	oftTable::header(array('ID','ДАТА','ПРИХОД','РАСХОД','ОСТАТОК','СЧЕТ','УЧАСТНИК','НАЗНАЧЕНИЕ ПЛАТЕЖА'));
 	$stmt = $db->prepare(
-		"SELECT A.*, DATE_FORMAT(exec_date, '%d-%m-%Y') as exec_date_u, ofv_uch.name
+		"SELECT A.*, DATE_FORMAT(exec_date, '%d-%m-%Y') as exec_date_u, ofv_uch.name, ofv_acc.uch_id
 		 FROM (
 			 SELECT id, exec_date, summa as cr, null as deb, deb_acc_id as acc_id, purpose
 			 FROM ofv_provodki
@@ -39,7 +39,8 @@
 		else
 			$s -= $row['deb'];
 		oftTable::row(array('<a href=ent_add.php?id='.$row['id'].'&acc_id='.$_GET['acc_id'].'>'.$row['id'].'</a>', $row['exec_date_u'], $row['cr'], $row['deb']
-		   ,$s ,$row['acc_id'], $row['name'], $row['purpose']));
+		   ,$s ,'<a href=acc_add.php?acc_id='.$row['acc_id'].'>'.$row['acc_id'].'</a>'
+		   , '<a href=uch.php?id='.$row['uch_id'].'>'.$row['name'].'</a>', $row['purpose']));
 	}
         
 	oftTable::end();

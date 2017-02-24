@@ -97,7 +97,7 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
     foreach($db->query(
     	"SELECT id, name
 	     FROM ofv_acc_type
-		 ORDER BY id"
+		 ORDER BY name"
     ) as $row){
          echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
     }             
