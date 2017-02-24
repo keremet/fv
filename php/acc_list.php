@@ -1,19 +1,27 @@
+<?php
+	$uch_id = $_GET['uch_id'];
+?>
 <head>
 	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 	<title>Счета</title>
 </head>
-<table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
+<table style="page-break-before: always;" width="400" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="acc_add.php?uch_id=<?=$_GET['uch_id']?>">Добавить счёт</a>
-	<td align="left"><a href="uch.php?id=<?=$_GET['uch_id']?>">Участник</a>
+	<td align="left"><a href="acc_add.php?uch_id=<?=$uch_id?>">Добавить счёт</a>
 	<td align="left"><a href="index.php">Участники</a>
 </table>
 <br/>
 <?php
 	include "oft_table.php";
 	include "connect.php";
-	oftTable::init('Счета');
+	
+	$stmt = $db->prepare(
+		"SELECT name
+		 FROM ofv_uch
+		 WHERE id = ?");
+	$stmt->execute(array($uch_id));	
+	oftTable::init('Счета (<a href="uch.php?id='.$uch_id.'">'.$stmt->fetchColumn().'</a>)');
 	oftTable::header(array('ID','ТИП','ДАТА ОТКРЫТИЯ','ДАТА ЗАКРЫТИЯ', 'ПРИМЕЧАНИЕ', ''));
 	$stmt = $db->prepare(
 		"SELECT ofv_acc.id, ofv_acc_type.name
