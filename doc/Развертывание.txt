@@ -1,0 +1,40 @@
+sudo svcadm enable svc:/application/database/mariadb:version_55
+sudo svcadm enable svc:/network/http:apache22
+
+sudo vi /etc/php/7.0/php.ini
+
+pdo_mysql.default_socket = /tmp/mariadb.sock
+
+sudo svcadm restart svc:/network/http:apache22
+
+
+содержимое каталога php в /var/apache2/2.2/htdocs
+
+В соответствии с содержимым php/connect.php создать базу данных на сервере и пользователя
+
+keremet@cr161118:/export/home/keremet$ mysql -u root 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 5.5.53-MariaDB Source distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE cp516214_lapka;
+Query OK, 1 row affected (0,34 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON cp516214_lapka.* TO 'cp516214_true'@'localhost' IDENTIFIED BY '1q2w3e4r' WITH GRANT OPTION;
+Query OK, 0 rows affected (0,01 sec)
+
+MariaDB [(none)]> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0,00 sec)
+
+MariaDB [(none)]> exit
+Bye
+
+Создать таблицы базы данных
+mysql -u cp516214_true -p1q2w3e4r cp516214_lapka < sql/init.sql 
+
+
+
