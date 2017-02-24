@@ -37,4 +37,6 @@ Bye
 mysql -u cp516214_true -p1q2w3e4r cp516214_lapka < sql/init.sql 
 
 
+echo "insert into ofv_acc_type (name)values('Общак');"|mysql -u cp516214_true -p1q2w3e4r cp516214_lapka 
+echo "insert into ofv_acc_type (name)values('Взносы');"|mysql -u cp516214_true -p1q2w3e4r cp516214_lapka 
 
