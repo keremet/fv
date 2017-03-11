@@ -53,6 +53,7 @@ function saveUch()
 	<td align="left"><a href="index.php">Участники</a>
 <?php if($id != null){ ?>
 	<td align="left"><a href="acc_list.php?uch_id=<?=$id?>">Счета</a>
+        <td align="left"><a href="loan_agr_list.php?uch_id=<?=$id?>">Займы</a>
 <?php } ?>
 </table>
 <br/>
