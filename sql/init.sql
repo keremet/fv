@@ -87,3 +87,40 @@ CONSTRAINT `provodki_transact_id` FOREIGN KEY (`transact_id`) REFERENCES `ofv_tr
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+
+CREATE TABLE `ofv_loan_agr` (
+`base_debt_acc` int(11) PRIMARY KEY,
+`sum` bigint NOT NULL,
+`base_rate` double NOT NULL,
+`fuflo_rate` double NOT NULL,
+`fuflo_debt_acc` int(11),
+`int_acc` int(11),
+CONSTRAINT `loan_agr_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT `loan_agr_fuflo_debt_acc` FOREIGN KEY (`fuflo_debt_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT `loan_agr_int_acc` FOREIGN KEY (`int_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `ofv_garant` (
+`base_debt_acc` int(11) NOT NULL,
+`uch_id` int(11) NOT NULL,
+PRIMARY KEY(`base_debt_acc`, `uch_id`),
+CONSTRAINT `garant_uch_id` FOREIGN KEY (`uch_id`) REFERENCES `ofv_uch` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT `garant_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `ofv_sched` (
+`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`base_debt_acc` int(11) NOT NULL, 
+`reason` int(11) NOT NULL, 
+`date` date NOT NULL,
+CONSTRAINT `sched_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `ofv_sched_line` (
+`sched_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`date` date NOT NULL,
+`base_debt` bigint NOT NULL,
+`int` bigint NOT NULL,
+`remainder` bigint NOT NULL,
+CONSTRAINT `sched_line_shed_id` FOREIGN KEY (`sched_id`) REFERENCES `ofv_sched` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
