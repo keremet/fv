@@ -19,28 +19,28 @@
 		}
 	}
 	
-	if ($_POST['base_debt_acc']!=null) {
+	if ($_POST['acc_id']!=null) {
 		if ($_POST['oper_type'] == 'delete') {
-			execStmt("DELETE FROM ofv_acc WHERE base_debt_acc = ?", array($_POST['base_debt_acc']));
-		} 
-			execStmt("UPDATE ofv_loan_agr SET sum = ?, base_rate = ?, fuflo_rate = ?
-                                  WHERE ofv_loan_agr.base_debt_acc = ?",
-				array($_POST['ofv_loan_agr_sum']
+			execStmt("CALL del_loan_agr (?)",
+			     array($_POST['acc_id']));
+		} else {
+			$ofv_acc_clos_date_cor = $_POST['ofv_acc_clos_date_cor'];
+			execStmt("CALL upd_loan_agr (?, ?, ?, ?, ?, ?, ?)",
+				array($_POST['acc_id']
+					 ,$_POST['ofv_acc_creat_date_cor']
+                     ,($ofv_acc_clos_date_cor != '')?$ofv_acc_clos_date_cor:null
+                     ,$_POST['ofv_acc_remark']
+					 ,$_POST['ofv_loan_agr_sum']
 				     ,$_POST['ofv_loan_agr_base_rate']
-                                     ,$_POST['ofv_loan_agr_fuflo_rate'] ));
-		}
-	 else {execStmt(" INSERT INTO ofv_acc(
-				      uch_id, type_id, creat_date, remark)
-				SELECT ? , id, ?, ?
-				FROM ofv_acc_type
-				WHERE name = 'Ссудный'",
-		       array ($_POST['uch_id']
-                             ,$_POST['ofv_acc_creat_date_cor']
-                             ,$_POST['ofv_acc_remark']));
-		/*execStmt("INSERT INTO ofv_loan_agr (sum, base_rate, fuflo_rate) 
-                          VALUES (?, ?, ?)",
-                            array($_POST['ofv_loan_agr_sum']
+                     ,$_POST['ofv_loan_agr_fuflo_rate']));
+        }
+     }    
+	 else {execStmt("CALL ins_loan_agr (?, ?, ?, ?, ?, ?)",
+					  array ($_POST['uch_id']
+                            ,$_POST['ofv_acc_creat_date_cor']
+                            ,$_POST['ofv_acc_remark']
+                            ,$_POST['ofv_loan_agr_sum']
                             ,$_POST['ofv_loan_agr_base_rate']
-                            ,$_POST['ofv_loan_agr_fuflo_rate']));*/
+                            ,$_POST['ofv_loan_agr_fuflo_rate']));
 	}
 ?>

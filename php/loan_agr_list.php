@@ -10,13 +10,12 @@
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="loan_agr_add.php?uch_id=<?=$uch_id?>">Добавить договор займа</a>
 	<td align="left"><a href="index.php">Участники</a>
-</table>
-<br/>
+ </table>
+        
 <?php
 	include "oft_table.php";
 	include "connect.php";
-	
-	$stmt = $db->prepare(
+		$stmt = $db->prepare(
 		"SELECT name
 		 FROM ofv_uch
 		 WHERE id = ?");
@@ -38,12 +37,12 @@
 	while ($row = $stmt->fetch()) {
 		oftTable::row(array('<a href=loan_agr_add.php?acc_id='.$row['id'].'>'.$row['id'].'</a>'
 			, $row['creat_date'], $row['clos_date'], $row['sum'], $row['base_rate'], $row ['fuflo_rate'] 
-			, $row ['fuflo_debt_acc'], $row ['int_acc'], $row ['remark'] 
+			, $row ['fuflo_debt_acc'], $row ['int_acc'], $row ['remark']
 			, '<a href=ent_add.php?cr_acc='.$row['id'].'&acc_id='.$row['id'].'>Добавить приход</a>'.
 			  '<br><a href=ent_add.php?deb_acc='.$row['id'].'&acc_id='.$row['id'].'>Добавить расход</a>'.
 			  '<br><a href=ent_list.php?acc_id='.$row['id'].'>Движение</a>'));
 	}
-	oftTable::end();
-?> 
+	oftTable::end();           
+?>
 </body>
 </html>

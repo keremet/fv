@@ -1,19 +1,10 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
---
--- База данных: `true`
---
------------------------------------------------------------
---
--- Структура таблицы `uch`, в ней какбы список участников ОРВ
---
 
 CREATE TABLE `ofv_uch` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -28,23 +19,10 @@ CREATE TABLE `ofv_uch` (
 `pasp_who` text COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `acc_type`, в ней как бы типы счетов
---
-
 CREATE TABLE `ofv_acc_type` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `acc`, в ней типа "счета"
---
 
 CREATE TABLE `ofv_acc` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -57,21 +35,10 @@ CONSTRAINT `acc_uch_id` FOREIGN KEY (`uch_id`) REFERENCES `ofv_uch` (`id`) ON DE
 CONSTRAINT `acc_type_id` FOREIGN KEY (`type_id`) REFERENCES `ofv_acc_type` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `transactsii`, в которой "транзакции"
---
-
 CREATE TABLE `ofv_transactsii` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `comment` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
--- --------------------------------------------------------
-
---
--- Структура таблицы `Provodki`, в ней, короче, "бухгалтерские проводки"
---
 
 CREATE TABLE `ofv_provodki` (
 `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -86,8 +53,6 @@ CONSTRAINT `provodki_deb_acc_id` FOREIGN KEY (`deb_acc_id`) REFERENCES `ofv_acc`
 CONSTRAINT `provodki_transact_id` FOREIGN KEY (`transact_id`) REFERENCES `ofv_transactsii` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
-
 CREATE TABLE `ofv_loan_agr` (
 `base_debt_acc` int(11) PRIMARY KEY,
 `sum` bigint NOT NULL,
@@ -95,7 +60,7 @@ CREATE TABLE `ofv_loan_agr` (
 `fuflo_rate` double NOT NULL,
 `fuflo_debt_acc` int(11),
 `int_acc` int(11),
-CONSTRAINT `loan_agr_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT `loan_agr_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT `loan_agr_fuflo_debt_acc` FOREIGN KEY (`fuflo_debt_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT `loan_agr_int_acc` FOREIGN KEY (`int_acc`) REFERENCES `ofv_acc` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -105,7 +70,7 @@ CREATE TABLE `ofv_garant` (
 `uch_id` int(11) NOT NULL,
 PRIMARY KEY(`base_debt_acc`, `uch_id`),
 CONSTRAINT `garant_uch_id` FOREIGN KEY (`uch_id`) REFERENCES `ofv_uch` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-CONSTRAINT `garant_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE RESTRICT ON UPDATE CASCADE
+CONSTRAINT `garant_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `ofv_sched` (
@@ -113,7 +78,7 @@ CREATE TABLE `ofv_sched` (
 `base_debt_acc` int(11) NOT NULL, 
 `reason` int(11) NOT NULL, 
 `date` date NOT NULL,
-CONSTRAINT `sched_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE RESTRICT ON UPDATE CASCADE
+CONSTRAINT `sched_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_loan_agr` (`base_debt_acc`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `ofv_sched_line` (
@@ -122,5 +87,44 @@ CREATE TABLE `ofv_sched_line` (
 `base_debt` bigint NOT NULL,
 `int` bigint NOT NULL,
 `remainder` bigint NOT NULL,
-CONSTRAINT `sched_line_shed_id` FOREIGN KEY (`sched_id`) REFERENCES `ofv_sched` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+CONSTRAINT `sched_line_shed_id` FOREIGN KEY (`sched_id`) REFERENCES `ofv_sched` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DELIMITER //
+CREATE PROCEDURE ins_loan_agr (p_uch_id INT(11), p_creat_date DATE, p_remark TEXT  CHARSET utf8
+			     ,p_sum BIGINT, p_base_rate DOUBLE, p_fuflo_rate DOUBLE) 
+BEGIN
+    INSERT INTO ofv_acc (uch_id, type_id, creat_date, remark)
+        SELECT p_uch_id , id, p_creat_date, p_remark
+	FROM ofv_acc_type
+	WHERE name = 'Ссудный';
+    INSERT INTO ofv_loan_agr (base_debt_acc, sum, base_rate, fuflo_rate) 
+	VALUES (LAST_INSERT_ID(), p_sum, p_base_rate, p_fuflo_rate);
+END //
+
+CREATE PROCEDURE upd_loan_agr (p_id INT(11), p_creat_date DATE, p_clos_date DATE, p_remark TEXT CHARSET utf8
+                             , p_sum BIGINT, p_base_rate DOUBLE, p_fuflo_rate DOUBLE)
+BEGIN
+    UPDATE ofv_acc
+    SET creat_date = p_creat_date, clos_date = p_clos_date, remark = p_remark 
+	WHERE id = p_id;
+    UPDATE ofv_loan_agr 
+    SET sum = p_sum, base_rate = p_base_rate, fuflo_rate = p_fuflo_rate
+    WHERE ofv_loan_agr.base_debt_acc = p_id;
+END //
+
+CREATE PROCEDURE del_loan_agr (p_id INT(11))
+BEGIN
+	DELETE FROM ofv_acc
+	WHERE id in (
+		SELECT p_id
+		UNION ALL
+		SELECT fuflo_debt_acc
+		FROM ofv_loan_agr
+		WHERE base_debt_acc = p_id
+		UNION ALL
+		SELECT int_acc
+		FROM ofv_loan_agr
+		WHERE base_debt_acc = p_id
+	);
+END //
