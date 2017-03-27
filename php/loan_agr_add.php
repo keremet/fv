@@ -7,7 +7,7 @@ if (isset($_GET['acc_id'])) {
 		"SELECT uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
                 ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date, remark, sum, base_rate, fuflo_rate
 		 FROM ofv_acc 
-                   JOIN ofv_loan_agr on ofv_loan_agr.base_debt_acc = ofv_acc.id
+                   JOIN ofv_loan_agr ON ofv_loan_agr.base_debt_acc = ofv_acc.id
 		 WHERE ofv_acc.id = ?");
 	$stmt->execute(array($acc_id));
 	$acc = $stmt->fetch();
@@ -104,13 +104,12 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 <br><input value="<?=(($acc_id==null)?"Создать договор":"Сохранить")?>" type="submit"  onclick="return saveLoanAgr();">
 
 <?php if ($acc_id!=null) { ?>
-<input value="Удалить договор да" type="submit" onclick="return checkDelLoanAgr();">
+<input value="Удалить договор" type="submit" onclick="return checkDelLoanAgr();">
 <input type="hidden" id="ofv_acc_clos_date_cor" name="ofv_acc_clos_date_cor">
 <?php } ?>
 
 <input type="hidden" id="oper_type" name="oper_type" value="update">
 <input type="hidden" id="uch_id" name="uch_id" value="<?=$uch_id?>">
-<input type="hidden" id="base_debt_acc" name="base_debt_acc" value="<?=$acc_id?>">
 <input type="hidden" id="acc_id" name="acc_id" value="<?=$acc_id?>">
 <input type="hidden" id="ofv_acc_creat_date_cor" name="ofv_acc_creat_date_cor">
 
@@ -118,7 +117,7 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 
 <?php
 	include "oft_table.php";
-		$stmt = $db->prepare(
+	$stmt = $db->prepare(
 		"SELECT base_debt_acc
 		 FROM ofv_loan_agr
 		 WHERE base_debt_acc = ?");
@@ -146,6 +145,26 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 		<button>Удалить</button></form>'));
 	}
 	oftTable::end();
-?>     
+
+
+	oftTable::init('График платежей');
+        oftTable::header(array('ДАТА', 'В ОСНОВНОЙ ДОЛГ', 'ПРОЦЕНТЫ', 'ОСТАТОК', 'ПЛАТЁЖ'));
+	$stmt = $db->prepare("SELECT date, base_debt, `int`, remainder, base_debt+`int` payment
+			      FROM ofv_sched_line
+		              WHERE sched_id = (
+				      SELECT MAX(`id`) 
+			      	      FROM ofv_sched
+			              WHERE date = (
+				     	     SELECT MAX(`date`)
+	                                     FROM ofv_sched
+	                                     WHERE base_debt_acc = ?)
+                              AND base_debt_acc = ?)
+                              ORDER BY date");
+        $stmt->execute(array($acc_id, $acc_id));	
+	while ($row = $stmt->fetch()){
+		oftTable::row(array($row['date'], $row['base_debt'], $row['int'], $row['remainder'], $row['payment']));
+	}
+	oftTable::end();
+?>
 </body>
-</html>
+</html> 

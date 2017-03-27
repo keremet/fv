@@ -82,12 +82,13 @@ CONSTRAINT `sched_base_debt_acc` FOREIGN KEY (`base_debt_acc`) REFERENCES `ofv_l
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `ofv_sched_line` (
-`sched_id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`sched_id` int(11) NOT NULL,
 `date` date NOT NULL,
 `base_debt` bigint NOT NULL,
 `int` bigint NOT NULL,
 `remainder` bigint NOT NULL,
-CONSTRAINT `sched_line_shed_id` FOREIGN KEY (`sched_id`) REFERENCES `ofv_sched` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT `sched_line_pk` PRIMARY KEY (`sched_id`, `date`),
+CONSTRAINT `sched_line_sched_id` FOREIGN KEY (`sched_id`) REFERENCES `ofv_sched` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DELIMITER //
