@@ -18,12 +18,12 @@
 	include "connect.php";
 	
 	$stmt = $db->prepare(
-		"SELECT ofv_acc.remark, ofv_uch.id as uch_id
-			, ofv_uch.name as uch_name, ofv_acc_type.name as type_name
-		 FROM ofv_acc, ofv_uch, ofv_acc_type
-		 WHERE ofv_acc.id = ?
-			and ofv_acc.uch_id = ofv_uch.id
-			and ofv_acc.type_id = ofv_acc_type.id");
+		"SELECT acc.remark, uch.id as uch_id
+			, uch.name as uch_name, acc_type.name as type_name
+		 FROM acc, uch, acc_type
+		 WHERE acc.id = ?
+			and acc.uch_id = uch.id
+			and acc.type_id = acc_type.id");
 	$stmt->execute(array($acc_id));
 	$acc = $stmt->fetch();
 	
@@ -32,18 +32,18 @@
 	);
 	oftTable::header(array('ID','ДАТА','ПРИХОД','РАСХОД','ОСТАТОК','СЧЕТ','УЧАСТНИК','НАЗНАЧЕНИЕ ПЛАТЕЖА'));
 	$stmt = $db->prepare(
-		"SELECT A.*, DATE_FORMAT(exec_date, '%d-%m-%Y') as exec_date_u, ofv_uch.name, ofv_acc.uch_id
+		"SELECT A.*, to_char(exec_date, 'dd-mm-yyyy') as exec_date_u, uch.name, acc.uch_id
 		 FROM (
 			 SELECT id, exec_date, summa as cr, null as deb, deb_acc_id as acc_id, purpose
-			 FROM ofv_provodki
+			 FROM provodki
 			 WHERE cred_acc_id = ?
 			 UNION ALL
 			 SELECT id, exec_date, null as cr, summa as deb, cred_acc_id as acc_id, purpose
-			 FROM ofv_provodki
+			 FROM provodki
 			 WHERE deb_acc_id = ?
-		 ) A, ofv_acc, ofv_uch
-		 WHERE A.acc_id = ofv_acc.id
-		   AND ofv_acc.uch_id = ofv_uch.id
+		 ) A, acc, uch
+		 WHERE A.acc_id = acc.id
+		   AND acc.uch_id = uch.id
 		 ORDER BY A.exec_date, A.id
 		 ");
 	$stmt->execute(array($_GET['acc_id'], $_GET['acc_id']));

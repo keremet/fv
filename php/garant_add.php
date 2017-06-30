@@ -9,7 +9,7 @@
 include "connect.php";
     foreach($db->query(
     	"SELECT  id, name 
-         FROM ofv_uch
+         FROM uch
          ORDER BY name"
     ) as $row){
          echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';

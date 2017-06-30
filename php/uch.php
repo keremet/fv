@@ -61,14 +61,14 @@ function saveUch()
 include 'connect.php';
 if($id != null){
 	$stmt = $db->prepare(
-		"SELECT id, name, address, address_fact, pol, DATE_FORMAT(birthday, '%d%m%Y') as birthday 
-                    ,LPAD(pasp_ser, 4, '0') as pasp_ser, LPAD(pasp_num, 6, '0') as pasp_num
-                    ,DATE_FORMAT(pasp_date, '%d%m%Y') as pasp_date, pasp_who
-		 FROM ofv_uch
+		"SELECT id, name, address, address_fact, pol_m, to_char(birthday, 'ddmmyyyy') as birthday 
+                    ,pasp_ser, pasp_num
+                    ,to_char(pasp_date, 'ddmmyyyy') as pasp_date, pasp_who
+		 FROM uch
 		 WHERE id = ?");
 	$stmt->execute(array($id));
 	$uch = $stmt->fetch();
-	$pol = $uch['pol'];
+	$pol = $uch['pol_m'];
 }
 ?>
 
@@ -81,9 +81,9 @@ if($id != null){
 <tr><td>Адрес фактический<td><input id="ofv_uch_address_fact"  name="ofv_uch_address_fact" size="30" 
                         type="text" value="<?=(($id!=null)?$uch['address_fact']:'')?>">
 <tr><td>Пол<td><select name="ofv_uch_pol" id="ofv_uch_pol">
-<option value="" <?=((($id==null)||($pol==null))?'selected="selected"':'')?>></option>
-<option value="1" <?=((($id!=null)&&($pol==1))?'selected="selected"':'')?>>М</option>
-<option value="2" <?=((($id!=null)&&($pol==2))?'selected="selected"':'')?>>Ж</option>
+<option value="" <?=((is_null($id)||is_null($pol))?'selected="selected"':'')?>></option>
+<option value="1" <?=(((!is_null($id))&&($pol))?'selected="selected"':'')?>>М</option>
+<option value="0" <?=(((!is_null($id))&&(!is_null($pol))&&(!$pol))?'selected="selected"':'')?>>Ж</option>
 </select>
 <tr><td>Дата рождения<td><input id="ofv_uch_birthday"  name="ofv_uch_birthday" size="8" 
                         type="text" value="<?=(($id!=null)?$uch['birthday']:'')?>" 

@@ -5,8 +5,8 @@ $id = null;
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];
 	$stmt = $db->prepare("
-		SELECT DATE_FORMAT(exec_date, '%d%m%Y') as exec_date, deb_acc_id, cred_acc_id, summa, purpose
-		FROM ofv_provodki
+		SELECT to_char(exec_date, 'ddmmyyyy') as exec_date, deb_acc_id, cred_acc_id, summa, purpose
+		FROM provodki
 		WHERE id = ?");
 	$stmt->execute(array($id));
 	$ent = $stmt->fetch();

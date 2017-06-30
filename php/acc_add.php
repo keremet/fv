@@ -4,10 +4,10 @@ include 'connect.php';
 if (isset($_GET['acc_id'])) {
 	$acc_id = $_GET['acc_id'];
 	$stmt = $db->prepare(
-		"SELECT type_id, uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
-                ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date
+		"SELECT type_id, uch_id, to_char(creat_date, 'ddmmyyyy') as creat_date
+                ,to_char(clos_date, 'ddmmyyyy') as clos_date
                 ,remark
-		 FROM ofv_acc
+		 FROM acc
 		 WHERE id = ?");
 	$stmt->execute(array($acc_id));
 	$acc = $stmt->fetch();
@@ -96,8 +96,8 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 <?php
     foreach($db->query(
     	"SELECT id, name
-	     FROM ofv_acc_type
-		 ORDER BY name"
+	FROM acc_type
+	ORDER BY name"
     ) as $row){
          echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
     }             

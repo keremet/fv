@@ -20,7 +20,7 @@
            }
     }
 	
-	execStmt("DELETE FROM ofv_garant WHERE uch_id = ? AND base_debt_acc = ?", 
+	execStmt("DELETE FROM garant WHERE uch_id = ? AND base_debt_acc = ?", 
              array($_POST['uch_id']
                   ,$_POST['acc_id']));  
 ?>

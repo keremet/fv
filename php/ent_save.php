@@ -21,9 +21,9 @@
 	
 	if ($_POST['ent_id']!=null) {
 		if ($_POST['oper_type'] == 'delete') {
-			execStmt("DELETE FROM ofv_provodki WHERE id = ?", array($_POST['ent_id']));
+			execStmt("DELETE FROM provodki WHERE id = ?", array($_POST['ent_id']));
 		} else {
-            execStmt("UPDATE ofv_provodki SET exec_date = ?, summa = ?, cred_acc_id = ?, 
+            execStmt("UPDATE provodki SET exec_date = ?, summa = ?, cred_acc_id = ?, 
                              deb_acc_id = ?, purpose = ?
 					  WHERE id = ?",
                             array($_POST['ofv_provodki_exec_date_cor']
@@ -34,7 +34,7 @@
                                  ,$_POST['ent_id'])); 
 		}
 	} else {
-		execStmt("INSERT INTO ofv_provodki(exec_date, summa, cred_acc_id, deb_acc_id, purpose) 
+		execStmt("INSERT INTO provodki(exec_date, summa, cred_acc_id, deb_acc_id, purpose) 
                           VALUES (?, ?, ?, ?, ?)",
 			array($_POST['ofv_provodki_exec_date_cor']
                              ,$_POST['ofv_provodki_summa']

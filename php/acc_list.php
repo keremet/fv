@@ -18,19 +18,19 @@
 	
 	$stmt = $db->prepare(
 		"SELECT name
-		 FROM ofv_uch
+		 FROM uch
 		 WHERE id = ?");
 	$stmt->execute(array($uch_id));	
 	oftTable::init('Счета (<a href="uch.php?id='.$uch_id.'">'.$stmt->fetchColumn().'</a>)');
 	oftTable::header(array('ID','ТИП','ДАТА ОТКРЫТИЯ','ДАТА ЗАКРЫТИЯ', 'ПРИМЕЧАНИЕ', ''));
 	$stmt = $db->prepare(
-		"SELECT ofv_acc.id, ofv_acc_type.name
-			, DATE_FORMAT( ofv_acc.creat_date, '%d-%m-%Y' ) AS creat_date
-			, DATE_FORMAT( ofv_acc.clos_date, '%d-%m-%Y' ) AS clos_date
-                        , ofv_acc.remark
-		 FROM ofv_acc, ofv_acc_type
-		 WHERE ofv_acc.uch_id = ?
-			AND ofv_acc.type_id = ofv_acc_type.id");
+		"SELECT acc.id, acc_type.name
+			, to_char( acc.creat_date, 'dd-mm-yyyy' ) AS creat_date
+			, to_char( acc.clos_date, 'dd-mm-yyyy' ) AS clos_date
+                        , acc.remark
+		 FROM acc, acc_type
+		 WHERE acc.uch_id = ?
+			AND acc.type_id = acc_type.id");
 	$stmt->execute(array($_GET['uch_id']));
 	while ($row = $stmt->fetch()) {
 		oftTable::row(array('<a href=acc_add.php?acc_id='.$row['id'].'>'.$row['id'].'</a>'

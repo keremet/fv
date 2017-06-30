@@ -20,7 +20,7 @@
     }
     
     
-   execStmt("INSERT INTO ofv_garant (uch_id, base_debt_acc) 
+   execStmt("INSERT INTO garant (uch_id, base_debt_acc) 
              VALUES (?, ?)",
              array($_POST['ofv_uch_name']
 				  ,$_POST['base_debt_acc']));

@@ -17,7 +17,7 @@
 	include "connect.php";
 		$stmt = $db->prepare(
 		"SELECT name
-		 FROM ofv_uch
+		 FROM uch
 		 WHERE id = ?");
 	$stmt->execute(array($uch_id));	
 	oftTable::init('Займы (<a href="uch.php?id='.$uch_id.'">'.$stmt->fetchColumn().'</a>)');
@@ -25,14 +25,14 @@
                               ,'СТАВКА ПО ОД','ФУФЛЫЖНАЯ СТАВКА', 'ФУФЛЫЖНЫЙ СЧЁТ'
 			      , 'СЧЁТ ПРОЦЕНТОВ', 'ПРИМЕЧАНИЕ', ''));
 	$stmt = $db->prepare(
-           "SELECT  ofv_acc.id 
-		  , DATE_FORMAT( ofv_acc.creat_date, '%d-%m-%Y' ) AS creat_date
-		  , DATE_FORMAT( ofv_acc.clos_date, '%d-%m-%Y' ) AS clos_date
-                  , ofv_loan_agr.sum, ofv_loan_agr.base_rate, ofv_loan_agr.fuflo_rate
-                  , ofv_loan_agr.fuflo_debt_acc, ofv_loan_agr.int_acc, ofv_acc.remark 
-            FROM ofv_acc
-            	JOIN ofv_loan_agr ON ofv_loan_agr.base_debt_acc = ofv_acc.id
-            WHERE ofv_acc.uch_id = ?");
+           "SELECT  acc.id 
+		  , to_char( acc.creat_date, 'dd-mm-yyyy' ) AS creat_date
+		  , to_char( acc.clos_date, 'dd-mm-yyyy' ) AS clos_date
+                  , loan_agr.sum, loan_agr.base_rate, loan_agr.fuflo_rate
+                  , loan_agr.fuflo_debt_acc, loan_agr.int_acc, acc.remark 
+            FROM acc
+            	JOIN loan_agr ON loan_agr.base_debt_acc = acc.id
+            WHERE acc.uch_id = ?");
 	$stmt->execute(array($_GET['uch_id']));
 	while ($row = $stmt->fetch()) {
 		oftTable::row(array('<a href=loan_agr_add.php?acc_id='.$row['id'].'>'.$row['id'].'</a>'

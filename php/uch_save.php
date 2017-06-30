@@ -21,10 +21,10 @@
 	
 	if ($_POST['id'] != '') {
 		if ($_POST['oper_type'] == 'delete') {
-			execStmt("DELETE FROM ofv_uch WHERE id = ?", array($_POST['id']));
+			execStmt("DELETE FROM uch WHERE id = ?", array($_POST['id']));
 		} else {
-			execStmt("UPDATE ofv_uch SET name = ?, address = ?, address_fact = ?
-						, pol = ?, birthday = ?, pasp_ser = ?
+			execStmt("UPDATE uch SET name = ?, address = ?, address_fact = ?
+						, pol_m = ?, birthday = ?, pasp_ser = ?
 						, pasp_num = ?, pasp_date = ?, pasp_who = ? 
 					  WHERE id = ?",
 				array( doNull($_POST['ofv_uch_name']), doNull($_POST['ofv_uch_address']), doNull($_POST['ofv_uch_address_fact'])
@@ -33,8 +33,8 @@
 					  ,doNull($_POST['ofv_uch_pasp_who']), $_POST['id']));
 		}
 	} else {
-		execStmt("INSERT INTO ofv_uch (name, address, address_fact
-					, pol, birthday, pasp_ser
+		execStmt("INSERT INTO uch (name, address, address_fact
+					, pol_m, birthday, pasp_ser
 					, pasp_num, pasp_date
 					, pasp_who) 
 				  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",

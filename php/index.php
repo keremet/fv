@@ -17,10 +17,10 @@
 			,'ДАТА РОЖДЕНИЯ','ПАСПОРТ: СЕРИЯ','НОМЕР','ДАТА ВЫДАЧИ'
 			,'КЕМ ВЫДАН', ''));
 	foreach($db->query(
-			"SELECT id, name, address, DATE_FORMAT(birthday, '%d-%m-%Y') as birthday
-				, LPAD(pasp_ser, 4, '0') as pasp_ser, LPAD(pasp_num, 6, '0') as pasp_num
-				, DATE_FORMAT(pasp_date, '%d-%m-%Y') as pasp_date, pasp_who 
-			 FROM ofv_uch
+			"SELECT id, name, address, to_char(birthday, 'dd-mm-yyyy') as birthday
+				, pasp_ser, pasp_num
+				, to_char(pasp_date, 'dd-mm-yyyy') as pasp_date, pasp_who 
+			 FROM uch
 			 ORDER BY name"
 			) as $row){
 	oftTable::row(array('<a href=uch.php?id='.$row['id'].'>'.$row['name'].'</a>',$row['address']

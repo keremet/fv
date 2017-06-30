@@ -4,11 +4,11 @@ include 'connect.php';
 if (isset($_GET['acc_id'])) {
 	$acc_id = $_GET['acc_id'];
 	$stmt = $db->prepare(
-		"SELECT uch_id, DATE_FORMAT(creat_date, '%d%m%Y') as creat_date
-                ,DATE_FORMAT(clos_date, '%d%m%Y') as clos_date, remark, sum, base_rate, fuflo_rate
-		 FROM ofv_acc 
-                   JOIN ofv_loan_agr ON ofv_loan_agr.base_debt_acc = ofv_acc.id
-		 WHERE ofv_acc.id = ?");
+		"SELECT uch_id, to_char(creat_date, 'ddmmyyyy') as creat_date
+                ,to_char(clos_date, 'ddmmyyyy') as clos_date, remark, sum, base_rate, fuflo_rate
+		 FROM acc 
+                   JOIN loan_agr ON loan_agr.base_debt_acc = acc.id
+		 WHERE acc.id = ?");
 	$stmt->execute(array($acc_id));
 	$acc = $stmt->fetch();
 	$uch_id = $acc['uch_id'];
@@ -119,7 +119,7 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 	include "oft_table.php";
 	$stmt = $db->prepare(
 		"SELECT base_debt_acc
-		 FROM ofv_loan_agr
+		 FROM loan_agr
 		 WHERE base_debt_acc = ?");
 	$stmt->execute(array($acc_id));	
 	oftTable::init('Поручители по договору');
@@ -127,12 +127,12 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 			,'ДАТА РОЖДЕНИЯ','ПАСПОРТ: СЕРИЯ','НОМЕР','ДАТА ВЫДАЧИ'
 			,'КЕМ ВЫДАН', ''));
 	$stmt = $db->prepare(
-			"SELECT id, name, address, DATE_FORMAT(birthday, '%d-%m-%Y') as birthday
-				, LPAD(pasp_ser, 4, '0') as pasp_ser, LPAD(pasp_num, 6, '0') as pasp_num
-				, DATE_FORMAT(pasp_date, '%d-%m-%Y') as pasp_date, pasp_who 
-			 FROM ofv_garant
-                         JOIN ofv_uch ON ofv_garant.uch_id = ofv_uch.id
-                            WHERE ofv_garant.base_debt_acc = ?
+			"SELECT id, name, address, to_char(birthday, 'dd-mm-yyyy') as birthday
+				, pasp_ser, pasp_num
+				, to_char(pasp_date, 'dd-mm-yyyy') as pasp_date, pasp_who 
+			 FROM garant
+                         JOIN uch ON garant.uch_id = uch.id
+                            WHERE garant.base_debt_acc = ?
 			 ORDER BY name");
         $stmt->execute(array($acc_id));	
 			while ($row = $stmt->fetch()){
@@ -150,13 +150,13 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
 	oftTable::init('График платежей');
         oftTable::header(array('ДАТА', 'В ОСНОВНОЙ ДОЛГ', 'ПРОЦЕНТЫ', 'ОСТАТОК', 'ПЛАТЁЖ'));
 	$stmt = $db->prepare("SELECT date, base_debt, `int`, remainder, base_debt+`int` payment
-			      FROM ofv_sched_line
+			      FROM sched_line
 		              WHERE sched_id = (
 				      SELECT MAX(`id`) 
-			      	      FROM ofv_sched
+			      	      FROM sched
 			              WHERE date = (
 				     	     SELECT MAX(`date`)
-	                                     FROM ofv_sched
+	                                     FROM sched
 	                                     WHERE base_debt_acc = ?)
                               AND base_debt_acc = ?)
                               ORDER BY date");
