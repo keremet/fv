@@ -63,7 +63,7 @@ if($id != null){
 	$stmt = $db->prepare(
 		"SELECT id, name, address, address_fact, pol_m, to_char(birthday, 'ddmmyyyy') as birthday 
                     ,pasp_ser, pasp_num
-                    ,to_char(pasp_date, 'ddmmyyyy') as pasp_date, pasp_who
+                    ,to_char(pasp_date, 'ddmmyyyy') as pasp_date, pasp_who, remark
 		 FROM uch
 		 WHERE id = ?");
 	$stmt->execute(array($id));
@@ -99,6 +99,8 @@ if($id != null){
 <tr><td>Дата выдачи паспорта<td><input id="ofv_uch_pasp_date"  name="ofv_uch_pasp_date" size="8"  maxlength="8" 
                         type="text" value="<?=(($id!=null)?$uch['pasp_date']:'')?>" onkeyup="return proverka_dat(this);" 
                         onchange="return proverka_dat(this);">
+<tr><td>Примечание<td><input id="ofv_uch_remark"  name="ofv_uch_remark" size="30" 
+                        type="text" value="<?=(($id!=null)?$uch['remark']:'')?>">
 </table>
 
 <br><input value="<?=(($id==null)?"Создать участника":"Сохранить")?>" type="submit"  onclick="return saveUch();">

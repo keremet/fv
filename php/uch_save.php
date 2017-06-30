@@ -25,22 +25,22 @@
 		} else {
 			execStmt("UPDATE uch SET name = ?, address = ?, address_fact = ?
 						, pol_m = ?, birthday = ?, pasp_ser = ?
-						, pasp_num = ?, pasp_date = ?, pasp_who = ? 
+						, pasp_num = ?, pasp_date = ?, pasp_who = ?, remark = ? 
 					  WHERE id = ?",
 				array( doNull($_POST['ofv_uch_name']), doNull($_POST['ofv_uch_address']), doNull($_POST['ofv_uch_address_fact'])
 					  ,doNull($_POST['ofv_uch_pol']), doNull($_POST['ofv_uch_birthday_cor']), doNull($_POST['ofv_uch_pasp_ser'])
 					  ,doNull($_POST['ofv_uch_pasp_num']), doNull($_POST['ofv_uch_pasp_date_cor'])
-					  ,doNull($_POST['ofv_uch_pasp_who']), $_POST['id']));
+					  ,doNull($_POST['ofv_uch_pasp_who']), doNull($_POST['ofv_uch_remark']), $_POST['id']));
 		}
 	} else {
 		execStmt("INSERT INTO uch (name, address, address_fact
 					, pol_m, birthday, pasp_ser
 					, pasp_num, pasp_date
-					, pasp_who) 
-				  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					, pasp_who, remark) 
+				  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 			array( doNull($_POST['ofv_uch_name']), doNull($_POST['ofv_uch_address']), doNull($_POST['ofv_uch_address_fact'])
 				  ,doNull($_POST['ofv_uch_pol']), doNull($_POST['ofv_uch_birthday_cor']), doNull($_POST['ofv_uch_pasp_ser'])
 				  ,doNull($_POST['ofv_uch_pasp_num']), doNull($_POST['ofv_uch_pasp_date_cor'])
-				  ,doNull($_POST['ofv_uch_pasp_who'])));
+				  ,doNull($_POST['ofv_uch_pasp_who']), doNull($_POST['ofv_uch_remark'])));
 	}
 ?>
