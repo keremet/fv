@@ -12,9 +12,10 @@ PDO drivers => mysql, pgsql, sqlite
 sudo svcadm enable svc:/application/database/postgresql_93:default_64bit
 sudo svcadm enable svc:/network/http:apache22
 
-После перезапуска ОС показать сервису, что база уже есть
+После перезапуска ОС или сервиса указать сервису, что база уже есть
 sudo svccfg -s svc:/application/database/postgresql_93:default_64bit "setprop postgresql_93/initialized = boolean: true"
 sudo svccfg -s svc:/application/database/postgresql_93:default_64bit refresh
+
 
 содержимое каталога php в /var/apache2/2.2/htdocs
 
@@ -28,4 +29,30 @@ psql -U postgres orv < sql/init.sql
 echo "INSERT INTO acc_type (name)values('Общак');"|psql -U postgres orv
 echo "INSERT INTO acc_type (name)values('Взносы');"|psql -U postgres orv
 echo "INSERT INTO acc_type (name)values('Ссудный');"|psql -U postgres orv
+
+
+
+########### Полезная инфа для сопровождения
+
+Резервное копирование
+pg_dump -U postgres orv > orv`date +%Y%m%d`.sql
+
+Восстановление
+echo "CREATE DATABASE orv;"|psql -U postgres
+psql -U postgres orv < orv20170706.sql 
+
+
+Если потребуется создать в пустом каталоге с данными базу, тогда это свойство сервиса initialized надо поменять на false
+
+Свойства сервиса
+svcprop svc:/application/database/postgresql_93:default_64bit
+
+Каталог с данными указан в этом свойстве:
+postgresql_93/data astring /var/postgres/9.3/data_64
+
+
+Для нормального отображения рублей:
+pkg install locale/ru
+echo 'ALTER SYSTEM set lc_monetary="ru_RU.UTF-8"'|psql -U postgres orv;
+svcadm restart svc:/application/database/postgresql_93:default_64bit
 
