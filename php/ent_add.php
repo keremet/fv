@@ -38,7 +38,7 @@ function saveEnt(){
 	var arr_err = [];
 	
 	document.getElementById("ofv_provodki_exec_date_cor").value = 
-		form_and_check_std_dat(document.getElementById("ofv_provodki_exec_date").value, arr_err);
+		form_and_check_dat(document.getElementById("ofv_provodki_exec_date").value, arr_err);
     if(arr_err.length>0){
 		alert("Ошибка в дате: "+arr_err[0]);
 		document.getElementById("ofv_provodki_exec_date").focus();

@@ -25,7 +25,7 @@
 			     array($_POST['acc_id']));
 		} else {
 			$ofv_acc_clos_date_cor = $_POST['ofv_acc_clos_date_cor'];
-			execStmt("SELECT upd_loan_agr (?, ?, ?, ?, ?, ?, ?)",
+			execStmt("SELECT upd_loan_agr (?, to_date(?, 'ddmmyyyy'), to_date(?, 'ddmmyyyy'), ?, ?, ?, ?)",
 				array($_POST['acc_id']
 					 ,$_POST['ofv_acc_creat_date_cor']
                      ,($ofv_acc_clos_date_cor != '')?$ofv_acc_clos_date_cor:null
@@ -35,7 +35,7 @@
                      ,$_POST['ofv_loan_agr_fuflo_rate']));
         }
      }    
-	 else {execStmt("SELECT ins_loan_agr (?, ?, ?, ?, ?, ?)",
+	 else {execStmt("SELECT ins_loan_agr (?, to_date(?, 'ddmmyyyy'), ?, ?, ?, ?)",
 					  array ($_POST['uch_id']
                             ,$_POST['ofv_acc_creat_date_cor']
                             ,$_POST['ofv_acc_remark']

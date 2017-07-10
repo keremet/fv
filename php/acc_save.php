@@ -24,7 +24,7 @@
 			execStmt("DELETE FROM acc WHERE id = ?", array($_POST['acc_id']));
 		} else {
 			$ofv_acc_clos_date_cor = $_POST['ofv_acc_clos_date_cor'];
-			execStmt("UPDATE acc SET creat_date = ?, clos_date = ?, remark = ?
+			execStmt("UPDATE acc SET creat_date = to_date(?, 'ddmmyyyy'), clos_date = to_date(?, 'ddmmyyyy'), remark = ?
 					  WHERE id = ?",
 				array($_POST['ofv_acc_creat_date_cor']
 					,($ofv_acc_clos_date_cor != '')?$ofv_acc_clos_date_cor:null
@@ -33,7 +33,7 @@
 		}
 	} else {
 		execStmt("INSERT INTO acc (uch_id, type_id, creat_date, remark) 
-                          VALUES (?, ?, ?, ?)",
+                          VALUES (?, ?, to_date(?, 'ddmmyyyy'), ?)",
 			array($_POST['uch_id']
                              ,$_POST['ofv_acc_type']
                              ,$_POST['ofv_acc_creat_date_cor']

@@ -39,7 +39,7 @@ function saveLoanAgr(){
 	var arr_err = [];
 	
 	document.getElementById("ofv_acc_creat_date_cor").value = 
-		form_and_check_std_dat(document.getElementById("ofv_acc_creat_date").value, arr_err);
+		form_and_check_dat(document.getElementById("ofv_acc_creat_date").value, arr_err);
     if(arr_err.length>0){
 		alert("Ошибка в дате создания: "+arr_err[0]);
 		document.getElementById("ofv_acc_creat_date").focus();
@@ -50,7 +50,7 @@ function saveLoanAgr(){
 	var v_ofv_acc_clos_date = document.getElementById("ofv_acc_clos_date").value;
 	if ( v_ofv_acc_clos_date != '' ) {
 		document.getElementById("ofv_acc_clos_date_cor").value = 
-			form_and_check_std_dat(v_ofv_acc_clos_date, arr_err);
+			form_and_check_dat(v_ofv_acc_clos_date, arr_err);
 		if(arr_err.length>0){
 			alert("Ошибка в дате закрытия: "+arr_err[0]);
 			document.getElementById("ofv_acc_clos_date").focus();

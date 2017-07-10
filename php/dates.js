@@ -78,11 +78,3 @@ function form_and_check_dat(datestr,arr_err)
 		return false;
 	return check_dat(datestr,arr_err);
 }
-
-function form_and_check_std_dat(datestr,arr_err)
-{
-	datestr = form_and_check_dat(datestr,arr_err);
-	if(arr_err.length>0)
-		return false;
-	return datestr.substring(4)+'-'+datestr.substring(2,4)+'-'+datestr.substring(0,2);
-}
