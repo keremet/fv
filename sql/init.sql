@@ -46,6 +46,19 @@ CONSTRAINT provodki_deb_acc_id FOREIGN KEY (deb_acc_id) REFERENCES acc (id) ON D
 CONSTRAINT provodki_transact_id FOREIGN KEY (transact_id) REFERENCES transactsii (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE fund (
+acc_id integer PRIMARY KEY,
+donation_acc_type_id integer,
+expenditure_acc_type_id integer,
+plan_donation_acc_type_id integer,
+plan_acc_id integer,
+CONSTRAINT fund_acc_id FOREIGN KEY (acc_id) REFERENCES acc (id) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fund_donation_acc_type_id FOREIGN KEY (donation_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT fund_expenditure_acc_type_id FOREIGN KEY (expenditure_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT fund_plan_donation_acc_type_id FOREIGN KEY (plan_donation_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT fund_plan_acc_id FOREIGN KEY (plan_acc_id) REFERENCES acc (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE TABLE loan_agr (
 base_debt_acc integer PRIMARY KEY,
 sum money NOT NULL,
