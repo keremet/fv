@@ -43,7 +43,7 @@
 	$stmt->execute(array($_GET['acc_id']));
 	while($row = $stmt->fetch()){
 		oftTable::row(array('<a href=uch.php?id='.$row['uch_id'].'>'.$row['name'].'</a>'
-			, $row['payed'], $row['planed'], $row['debt'], $row['last_plan_d']));
+			, $row['payed'], '<p align="right">'.$row['planed'].'</p>', $row['debt'], $row['last_plan_d']));
 	}
 	oftTable::end();
 ?> 

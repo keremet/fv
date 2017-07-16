@@ -54,7 +54,7 @@ $plan_donation_acc_type_id = $_GET['plan_donation_acc_type_id'];
 		$planRow = array();
 		$planRow[] = '<a href=uch.php?id='.$row['id'].'>'.$row['name'].'</a>';
 		foreach($dates as $v){
-			$planRow[] = array_key_exists($v, $sums)?$sums[$v]:'';
+			$planRow[] = array_key_exists($v, $sums)?('<p align="right">'.$sums[$v].'</p>'):'';
 		}
 		oftTable::row($planRow);
 	}
