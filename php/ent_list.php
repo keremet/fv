@@ -33,6 +33,7 @@
 	oftTable::header(array('ID','ДАТА','ПРИХОД','РАСХОД','ОСТАТОК','СЧЕТ','УЧАСТНИК','НАЗНАЧЕНИЕ ПЛАТЕЖА'));
 	$stmt = $db->prepare(
 		"SELECT A.*, to_char(exec_date, 'dd-mm-yyyy') as exec_date_u, uch.name, acc.uch_id
+			, (coalesce(sum(cr) OVER (ORDER BY A.exec_date, A.id), 0::money) - coalesce(sum(deb) OVER (ORDER BY A.exec_date, A.id), 0::money)) rem
 		 FROM (
 			 SELECT id, exec_date, summa as cr, null as deb, deb_acc_id as acc_id, purpose
 			 FROM provodki
@@ -47,14 +48,9 @@
 		 ORDER BY A.exec_date, A.id
 		 ");
 	$stmt->execute(array($_GET['acc_id'], $_GET['acc_id']));
-	$s = 0;
 	while ($row = $stmt->fetch()) {
-		if ($row['cr'] != null)
-			$s += $row['cr'];
-		else
-			$s -= $row['deb'];
-		oftTable::row(array('<a href=ent_add.php?id='.$row['id'].'&acc_id='.$_GET['acc_id'].'>'.$row['id'].'</a>', $row['exec_date_u'], $row['cr'], $row['deb']
-		   ,$s ,'<a href=acc_add.php?acc_id='.$row['acc_id'].'>'.$row['acc_id'].'</a>'
+		oftTable::row(array('<a href=ent_add.php?id='.$row['id'].'&acc_id='.$_GET['acc_id'].'>'.$row['id'].'</a>', $row['exec_date_u'], '<p align="right">'.$row['cr'].'</p>', '<p align="right">'.$row['deb'].'</p>'
+		   ,'<p align="right">'.$row['rem'].'</p>' ,'<p align="right"><a href=acc_add.php?acc_id='.$row['acc_id'].'>'.$row['acc_id'].'</a></p>'
 		   , '<a href=uch.php?id='.$row['uch_id'].'>'.$row['name'].'</a>', $row['purpose']));
 	}
         
