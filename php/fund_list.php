@@ -5,6 +5,7 @@
 <table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
+	<td align="left"><a href="index.php">На главную</a>
 	<td align="left"><a href="fund_add.php">Добавить общак</a>
 </table>
 <br/>

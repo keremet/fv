@@ -50,7 +50,7 @@ function saveUch()
 <table style="page-break-before: always;" width="262" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="uch_list.php">Участники</a>
 <?php if($id != null){ ?>
 	<td align="left"><a href="acc_list.php?uch_id=<?=$id?>">Счета</a>
         <td align="left"><a href="loan_agr_list.php?uch_id=<?=$id?>">Займы</a>

@@ -15,7 +15,7 @@
 			</html>		
 <?php
 		} else {
-			header('Location: index.php');
+			header('Location: uch_list.php');
 		}
 	}
 	

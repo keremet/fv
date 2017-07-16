@@ -66,7 +66,7 @@ function saveLoanAgr(){
 <table style="page-break-before: always;" width="600" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="uch_list.php">Участники</a>
 	<td align="left"><a href="acc_list.php?uch_id=<?=$uch_id?>">Счета</a>
 <?php if ($acc_id!=null) { ?>
 	<td align="left"><a href="ent_list.php?acc_id=<?=$acc_id?>">Движение по счету</a>

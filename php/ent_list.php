@@ -8,7 +8,7 @@
 <table style="page-break-before: always;" width="600" border="0" cellpadding="1" cellspacing="1">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="uch_list.php">Участники</a>
 	<td align="left"><a href="ent_add.php?cr_acc=<?=$acc_id?>&acc_id=<?=$acc_id?>">Добавить приход</a>
 	<td align="left"><a href="ent_add.php?deb_acc=<?=$acc_id?>&acc_id=<?=$acc_id?>">Добавить расход</a>
 </table>

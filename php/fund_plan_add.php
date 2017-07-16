@@ -33,7 +33,7 @@ function saveEnt(){
 <table style="page-break-before: always;" width="1000" border="0" cellpadding="1" cellspacing="1">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="uch_list.php">Участники</a>
 	<td align="left"><a href="ent_list.php?acc_id=<?=$plan_acc_id?>">Движения по счету</a>
 </table>
 <br/>

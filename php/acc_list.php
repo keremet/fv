@@ -9,7 +9,7 @@
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
 	<td align="left"><a href="acc_add.php?uch_id=<?=$uch_id?>">Добавить счёт</a>
-	<td align="left"><a href="index.php">Участники</a>
+	<td align="left"><a href="uch_list.php">Участники</a>
 </table>
 <br/>
 <?php
