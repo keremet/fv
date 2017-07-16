@@ -15,22 +15,24 @@
 	);
 	$stmtAcc->execute(array($plan_donation_acc_type_id));
 	while($rowAcc = $stmtAcc->fetch()){
-        if(!$stmtEnt->execute(array($_POST['exec_date_cor']
-                             ,$_POST['acc'.$rowAcc['id']]
-                             ,$cr_acc_id
-                             ,$rowAcc['id'] 
-                             ,$_POST['purpose']))){
-			?> 
-			<html>
-				<head>
-					<meta charset="utf-8">
-				</head>
-				<body>
-					Ошибка <?php print_r($stmt->errorInfo()); ?> 
-				</body>
-			</html>		
-			<?php
-		};
+		$summa = $_POST['acc'.$rowAcc['id']];
+		if($summa!='')
+			if(!$stmtEnt->execute(array($_POST['exec_date_cor']
+								 ,$summa
+								 ,$cr_acc_id
+								 ,$rowAcc['id'] 
+								 ,$_POST['purpose']))){
+				?> 
+				<html>
+					<head>
+						<meta charset="utf-8">
+					</head>
+					<body>
+						Ошибка <?php print_r($stmt->errorInfo()); ?> 
+					</body>
+				</html>		
+				<?php
+			};
     } 
     
     header("Location: fund_plan.php?plan_acc_id=$cr_acc_id&plan_donation_acc_type_id=$plan_donation_acc_type_id");                    

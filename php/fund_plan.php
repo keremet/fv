@@ -1,3 +1,9 @@
+<?php
+//session_start();
+include 'connect.php';
+$plan_acc_id = $_GET['plan_acc_id'];
+$plan_donation_acc_type_id = $_GET['plan_donation_acc_type_id'];
+?>
 <head>
 	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 	<title>План по взносам</title>
@@ -5,14 +11,13 @@
 <table style="page-break-before: always;" width="650" border="0" cellpadding="0" cellspacing="0">
 <tr valign="TOP">
 	<td align="left"><a href="exit.php">Выход</a>
-	<td align="left"><a href="fund_plan_add.php?plan_acc_id=<?=$_GET['plan_acc_id']?>&plan_donation_acc_type_id=<?=$_GET['plan_donation_acc_type_id']?>">Добавить план на дату</a>
+	<td align="left"><a href="ent_list.php?acc_id=<?=$plan_acc_id?>">Движение по счету</a>
+	<td align="left"><a href="fund_plan_add.php?plan_acc_id=<?=$plan_acc_id?>&plan_donation_acc_type_id=<?=$plan_donation_acc_type_id?>">Добавить план на дату</a>
 	<td align="left"><a href="fund_list.php">Общаки</a>
 </table>
 <br/>
 <?php
 	include "oft_table.php";
-	include "connect.php";
-	$plan_donation_acc_type_id = $_GET['plan_donation_acc_type_id'];
 	oftTable::init('План по взносам');
 	$stmt = $db->prepare(
 		"SELECT distinct provodki.exec_date
@@ -41,7 +46,7 @@
 		 WHERE cred_acc_id = ? and deb_acc_id = ?"
 	);		
 	while($row = $stmt->fetch()){
-		$stmtSum->execute(array($_GET['plan_acc_id'], $row['deb_acc_id']));
+		$stmtSum->execute(array($plan_acc_id, $row['deb_acc_id']));
 		$sums = array();
 		while($rowSum = $stmtSum->fetch()){
 			$sums[$rowSum['exec_date']] = $rowSum['summa'];
