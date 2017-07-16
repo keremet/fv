@@ -45,7 +45,7 @@
 		 ) A, acc, uch
 		 WHERE A.acc_id = acc.id
 		   AND acc.uch_id = uch.id
-		 ORDER BY A.exec_date, A.id
+		 ORDER BY A.exec_date DESC, A.id DESC
 		 ");
 	$stmt->execute(array($_GET['acc_id'], $_GET['acc_id']));
 	while ($row = $stmt->fetch()) {
