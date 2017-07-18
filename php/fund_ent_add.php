@@ -2,6 +2,7 @@
 //session_start();
 include 'connect.php';
 $cr_acc = isset($_GET['cr_acc'])?$_GET['cr_acc']:null;
+$ext = isset($_GET['ext']);
 $deb_acc = isset($_GET['deb_acc'])?$_GET['deb_acc']:null;
 if(is_null($cr_acc)){
 	$acc_id = $deb_acc;
@@ -10,7 +11,7 @@ if(is_null($cr_acc)){
 }else{
 	$acc_id = $cr_acc;
 	$uch_acc_id = "ofv_provodki_deb_acc_id";
-	$title = "Приход";
+	$title = $ext?"Пожертвование":"Взнос";
 }
 
 ?>
@@ -62,17 +63,12 @@ onkeyup="return proverka_dat(this);" onchange="return proverka_dat(this);">
             
 <?php
 	$stmt = $db->prepare(
-		is_null($cr_acc)?
 		"SELECT acc.id, uch.name
 		FROM fund
-		  JOIN acc ON fund.expenditure_acc_type_id = acc.type_id
-		  JOIN uch ON acc.uch_id = uch.id
-		WHERE fund.acc_id = ?
-		ORDER BY uch.name"	
-		:
-		"SELECT acc.id, uch.name
-		FROM fund
-		  JOIN acc ON fund.donation_acc_type_id = acc.type_id
+		  JOIN acc ON fund."
+			.(is_null($cr_acc)?"expenditure_acc_type_id"
+				:($ext?"extra_donation_acc_type_id":"donation_acc_type_id"))
+			." = acc.type_id
 		  JOIN uch ON acc.uch_id = uch.id
 		WHERE fund.acc_id = ?
 		ORDER BY uch.name"

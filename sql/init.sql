@@ -52,10 +52,12 @@ donation_acc_type_id integer,
 expenditure_acc_type_id integer,
 plan_donation_acc_type_id integer,
 plan_acc_id integer,
+extra_donation_acc_type_id integer,
 CONSTRAINT fund_acc_id FOREIGN KEY (acc_id) REFERENCES acc (id) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fund_donation_acc_type_id FOREIGN KEY (donation_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT fund_expenditure_acc_type_id FOREIGN KEY (expenditure_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT fund_plan_donation_acc_type_id FOREIGN KEY (plan_donation_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT fund_extra_donation_acc_type_id FOREIGN KEY (extra_donation_acc_type_id) REFERENCES acc_type (id) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT fund_plan_acc_id FOREIGN KEY (plan_acc_id) REFERENCES acc (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
