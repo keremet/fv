@@ -12,7 +12,7 @@
 	include "oft_table.php";
 	include "connect.php";
 	oftTable::init('Статистика');
-	oftTable::header(array('УЧАСТНИК', 'УПЛАЧЕНО', 'ПО ПЛАНУ', 'ДОЛГ', 'ДАТА ПОСЛЕДНЕГО ПЛАТЕЖА ПО ПЛАНУ'));
+	oftTable::header(array('УЧАСТНИК', 'УПЛАЧЕНО ВЗНОСОВ', 'ПО ПЛАНУ', 'ДОЛГ', 'ДАТА ПОСЛЕДНЕГО ПЛАТЕЖА ПО ПЛАНУ', 'ПОЖЕРТВОВАНИЯ'));
 	$stmt = $db->prepare(
 		"SELECT a.*, (a.planed - a.payed) debt
 		 FROM (
@@ -21,6 +21,11 @@
 				FROM provodki
 				WHERE cred_acc_id = fund.acc_id and deb_acc_id = acc.id
 			) payed, 
+			(
+				SELECT sum(summa)
+				FROM provodki
+				WHERE cred_acc_id = fund.acc_id and deb_acc_id = ext_acc.id
+			) ext_payed, 
 			(
 				SELECT sum(summa)
 				FROM provodki
@@ -36,6 +41,8 @@
 			  JOIN uch ON acc.uch_id = uch.id
 				LEFT JOIN acc plan_acc ON uch.id = plan_acc.uch_id 
 						and fund.plan_donation_acc_type_id = plan_acc.type_id
+				LEFT JOIN acc ext_acc ON uch.id = ext_acc.uch_id 
+						and fund.extra_donation_acc_type_id = ext_acc.type_id
 			WHERE fund.acc_id = ?
 		) a
 		ORDER BY a.name"
@@ -43,7 +50,7 @@
 	$stmt->execute(array($_GET['acc_id']));
 	while($row = $stmt->fetch()){
 		oftTable::row(array('<a href=uch.php?id='.$row['uch_id'].'>'.$row['name'].'</a>'
-			, $row['payed'], '<p align="right">'.$row['planed'].'</p>', $row['debt'], $row['last_plan_d']));
+			, $row['payed'], '<p align="right">'.$row['planed'].'</p>', $row['debt'], $row['last_plan_d'], $row['ext_payed']));
 	}
 	oftTable::end();
 ?> 
